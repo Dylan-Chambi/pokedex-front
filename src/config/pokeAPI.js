@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export default axios.create({
-    baseURL: 'https://pokeapi.co/api/v2/pokemon',
+    baseURL: process.env.REACT_APP_POKEAPI,
     headers: {
         'Content-Type': 'application/json'
     }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'http://localhost:4000/api/v1/pokedex',
+    baseURL: process.env.REACT_APP_BACKEND,
     headers: {
         'Content-Type': 'application/json'
     }
