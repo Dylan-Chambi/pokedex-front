@@ -10,9 +10,6 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - env:
-          REACT_APP_BACKEND: secrets.REACT_APP_BACKEND
-          REACT_APP_POKEAPI: secrets.REACT_APP_POKEAPI
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
@@ -21,3 +18,6 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_POKEDEX_E01AC }}'
           channelId: live
           projectId: pokedex-e01ac
+        env:
+          REACT_APP_BACKEND: secrets.REACT_APP_BACKEND
+          REACT_APP_POKEAPI: secrets.REACT_APP_POKEAPI
