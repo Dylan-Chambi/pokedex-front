@@ -9,8 +9,8 @@ on:
       - develop
 
 env:
-  REACT_APP_BACKEND: secrets.REACT_APP_BACKEND
-  REACT_APP_POKEAPI: secrets.REACT_APP_POKEAPI
+  REACT_APP_BACKEND: '${{ secrets.REACT_APP_BACKEND }}'
+  REACT_APP_POKEAPI: '${{ secrets.REACT_APP_POKEAPI }}'
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
