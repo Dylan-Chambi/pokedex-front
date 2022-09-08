@@ -1,48 +1,55 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState, useEffect } from "react";
-import pokeAPI from '../config/pokeAPI';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getPokemon, setLoading } from "../store/pokeSlice/pokemonSlices";
 
 const textColor = "white"
 
 const PokemonCard = ({ id }) => {
-    const [pokemon, setPokemon] = useState(null)
+    const currentPokemon = useSelector(state => state.pokemonReducer.pokemon);
+    const isLoading = useSelector(state => state.pokemonReducer.loading);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const getPokemon = async () => {
-            const pokemonRes = await pokeAPI.get('/' + id);
-            console.log(pokemonRes.data)
-            setPokemon(pokemonRes.data)
+        if (id) {
+            dispatch(setLoading(true));
+            dispatch(getPokemon(id));
         }
-        if (id) getPokemon()
         else console.log("Invalid ID");
-    }, [id])
+    }, [id, dispatch]);
+
+    useEffect(() => {
+        console.log("isLoading: " + isLoading);
+    }, [isLoading]);
 
 
     return (
         <>
-            {pokemon ?
-                <Card sx={{ padding: "10px", backgroundColor: "#1769aa", borderRadius: "10px" }}>
+            {isLoading ? <Skeleton variant="rect" width={'100%'} height={'100%'} >
+                <Card sx={{ padding: "10px", backgroundColor: "#1769aa", borderRadius: "10px" }}/>
+            </Skeleton>
+                : <Card sx={{ padding: "10px", backgroundColor: "#1769aa", borderRadius: "10px" }}>
                     <CardMedia
                         component="img"
                         sx={{ backgroundColor: "white", borderRadius: "20%" }}
-                        alt={pokemon.name}
-                        image={pokemon.sprites.other['official-artwork'].front_default}>
+                        alt={currentPokemon.name}
+                        image={currentPokemon.sprites.other['official-artwork'].front_default}>
                     </CardMedia>
                     <CardContent>
                         <Box sx={{ display: "flex" }}>
                             <Box sx={{ mr: "60px" }}>
                                 <Typography color={textColor} sx={{ fontWeight: 'bold' }}>Stats</Typography>
-                                {pokemon.stats.map((item, index) => {
+                                {currentPokemon.stats.map((item, index) => {
                                     return (
                                         <Typography key={index} color={textColor}>{" - " + item.stat.name + ": " + item.base_stat}</Typography>
                                     );
                                 })}
                             </Box>
                             <Box >
-                                <Typography color={textColor}><b>Name: </b>{pokemon.name}</Typography>
+                                <Typography color={textColor}><b>Name: </b>{currentPokemon.name}</Typography>
                                 <Typography color={textColor} sx={{ fontWeight: 'bold' }}>Abilities</Typography>
-                                {pokemon.abilities.map((item, index) => {
+                                {currentPokemon.abilities.map((item, index) => {
                                     return (
                                         <Typography key={index} color={textColor}>{" - " + item.ability.name}</Typography>
                                     );
@@ -50,8 +57,7 @@ const PokemonCard = ({ id }) => {
                             </Box>
                         </Box>
                     </CardContent>
-                </Card> 
-            : null}
+                </Card>}
         </>
     );
 }
