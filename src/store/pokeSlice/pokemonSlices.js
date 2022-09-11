@@ -21,11 +21,11 @@ export const pokemonSlice = createSlice({
             state.loading = action.payload;
         }
     },
-    extraReducers: (builder) => {
-        builder.addCase(getPokemon.fulfilled, (state, action) => {
+    extraReducers: {
+        [getPokemon.fulfilled]: (state, action) => {
             state.pokemon = action.payload;
             state.loading = false;
-        } );
+        }
     }
 });
 

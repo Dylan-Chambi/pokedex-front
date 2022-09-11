@@ -7,21 +7,16 @@ import { getPokemon, setLoading } from "../store/pokeSlice/pokemonSlices";
 const textColor = "white"
 
 const PokemonCard = ({ id }) => {
+    const dispatch = useDispatch();
     const currentPokemon = useSelector(state => state.pokemonReducer.pokemon);
     const isLoading = useSelector(state => state.pokemonReducer.loading);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (id) {
             dispatch(setLoading(true));
             dispatch(getPokemon(id));
         }
-        else console.log("Invalid ID");
     }, [id, dispatch]);
-
-    useEffect(() => {
-        console.log("isLoading: " + isLoading);
-    }, [isLoading]);
 
 
     return (
