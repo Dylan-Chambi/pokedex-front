@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 const validationSchema = yup.object({
     email: yup
         .string('Enter your email')
+        .email('Enter a valid email')
         .required('email is required'),
     password: yup
         .string('Enter your password')

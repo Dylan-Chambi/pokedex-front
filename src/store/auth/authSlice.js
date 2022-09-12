@@ -1,14 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
-const userCookie = Cookies.get("user");
-const dateCookie = Cookies.get("date");
+// const userCookie = Cookies.get("user");
+// const dateCookie = Cookies.get("date");
+
+// const initialState = {
+//     isLoading: false,
+//     isAuthenticated: (userCookie && dateCookie) ? true : false,
+//     user: (userCookie && dateCookie) ? JSON.parse(userCookie) : null,
+//     date: (userCookie && dateCookie) ? dateCookie : null,
+// }
 
 const initialState = {
     isLoading: false,
-    isAuthenticated: (userCookie && dateCookie) ? true : false,
-    user: (userCookie && dateCookie) ? JSON.parse(userCookie) : null,
-    date: (userCookie && dateCookie) ? dateCookie : null,
+    isAuthenticated: false,
+    user: null,
+    date: null,
 }
 
 export const authSlice = createSlice({
@@ -23,15 +30,15 @@ export const authSlice = createSlice({
             state.isAuthenticated = true;
             state.date = (new Date()).toLocaleString();
             state.isLoading = false;
-            Cookies.set("user", JSON.stringify(state.user));
-            Cookies.set("date", state.date);
+            // Cookies.set("user", JSON.stringify(state.user));
+            // Cookies.set("date", state.date);
         },
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
             state.date = null;
-            Cookies.remove("user");
-            Cookies.remove("date");
+            // Cookies.remove("user");
+            // Cookies.remove("date");
         }
     }
 });
